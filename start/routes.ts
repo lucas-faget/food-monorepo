@@ -8,13 +8,10 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import FoodController from '#controllers/food_controller'
 
-router.get('/', async () => {
-    return {
-        hello: 'world',
-    }
-})
+const FoodController = () => import('#controllers/food_controller')
+const ProductsController = () => import('#controllers/products_controller')
 
 router.get('/food/:barcode', [FoodController, 'show'])
-router.get('/food/search/:query/:page?', [FoodController, 'search'])
+router.get('/food', [FoodController, 'search'])
+router.resource('products', ProductsController).apiOnly()
