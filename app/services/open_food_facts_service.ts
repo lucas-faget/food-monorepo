@@ -17,19 +17,21 @@ export default class OpenFoodFactsService {
             fields: this.fields,
         })
 
-        if (!data) {
-            throw new Error(error.result.name)
+        if (!data || data.status !== 'success') {
+            throw new Error(error?.result?.name ?? 'Product not found')
         }
 
-        return data.product
+        const p = data.product
+
+        return this.productDTO(p)
     }
 
-    public async searchProduct(query: string = '', page = 1) {
+    public async searchProduct(query: string = '', page = 1, pageSize = this.pageSize) {
         const { data } = await this.searchClient.search({
             fields: this.fields,
             langs: ['fr'],
             page,
-            page_size: this.pageSize,
+            page_size: pageSize,
             q: query,
         })
 
@@ -42,7 +44,18 @@ export default class OpenFoodFactsService {
             page_count: data.page_count,
             page_size: data.page_size,
             count: data.count,
-            products: data.hits,
+            products: data.hits.map((p) => this.productDTO(p)),
+        }
+    }
+
+    public productDTO(p: any) {
+        return {
+            barcode: p.code,
+            name: p.product_name,
+            brand: Array.isArray(p.brands) ? p.brands[0] : p.brands,
+            categories: p.categories,
+            imageUrl: p.image_url,
+            nutriments: p.nutriments,
         }
     }
 }

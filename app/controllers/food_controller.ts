@@ -4,22 +4,30 @@ import OpenFoodFactsService from '#services/open_food_facts_service'
 export default class FoodController {
     private service = new OpenFoodFactsService()
 
+    /**
+     * GET /food/:barcode
+     */
     public async show({ params, response }: HttpContext) {
         const { barcode } = params
 
         try {
             const product = await this.service.getProduct(barcode)
             return response.ok(product)
-        } catch (error) {
-            return response.internalServerError({ message: error.message })
+        } catch (error: any) {
+            return response.internalServerError({ message: error?.message ?? 'Product not found' })
         }
     }
 
-    public async search({ params, response }: HttpContext) {
-        const { query, page } = params
+    /**
+     * GET /food
+     */
+    public async search({ request, response }: HttpContext) {
+        const query: string = request.input('q')
+        const page: number = request.input('page', 1)
+        const pageSize: number = request.input('page_size', 20)
 
         try {
-            const data = await this.service.searchProduct(query, page)
+            const data = await this.service.searchProduct(query, page, pageSize)
             return response.ok(data)
         } catch {
             return response.internalServerError({ message: 'Error searching products' })
