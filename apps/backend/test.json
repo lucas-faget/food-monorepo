@@ -1,0 +1,385 @@
+{
+    "hits": [
+        {
+            "code": "3292590836627",
+            "brands": ["Thiriet"],
+            "nutriments": {
+                "carbohydrates_100g": 24,
+                "energy-kcal_100g": 125,
+                "fat_100g": 4.8,
+                "proteins_100g": 2.5,
+                "salt_100g": 0.1,
+                "saturated-fat_100g": 0.4,
+                "sodium_100g": 0.04,
+                "sugars_100g": 0.7
+            },
+            "product_name": "Pommes Rissolées",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Surgelés, Pommes de terre préparées, Pommes de terre rissolées, Pommes de terre normales préfrites surgelées, Pommes de terre, Pommes de terre rissolées surgelées, Pommes rissolées surgelées cuites, en:frozen-pre-fried-potato-cubes",
+            "image_url": "https://images.openfoodfacts.org/images/products/329/259/083/6627/front_fr.8.400.jpg"
+        },
+        {
+            "code": "3256224701606",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 22,
+                "energy-kj_100g": 619,
+                "fat_100g": 5,
+                "fiber_100g": 2.6,
+                "proteins_100g": 2.3,
+                "salt_100g": 0.09,
+                "saturated-fat_100g": 0.7,
+                "sodium_100g": 0.036,
+                "sugars_100g": 0.5
+            },
+            "product_name": "Pommes frites",
+            "categories": "Chips et frites, Surgelés, Pommes de terre normales préfrites surgelées, Frites, Frites surgelées",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/470/1606/front_fr.26.400.jpg"
+        },
+        {
+            "code": "3347762002000",
+            "brands": ["Les nouveaux producteurs de nos régions"],
+            "nutriments": {
+                "fat_100g": 0.22,
+                "energy-kcal_100g": 75,
+                "saturated-fat_100g": 0.026,
+                "proteins_100g": 2,
+                "salt_100g": 0.0975,
+                "sugars_100g": 0.51,
+                "carbohydrates_100g": 15.8,
+                "sodium_100g": 0.039
+            },
+            "product_name": "Pommes de terre de France",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Aliments à base de fruits et de légumes, Légumes et dérivés, Frais, Aliments à base de plantes frais, Légumes frais, Pommes de terre, Pommes de terre Chérie",
+            "image_url": "https://images.openfoodfacts.org/images/products/334/776/200/2000/front_fr.14.400.jpg"
+        },
+        {
+            "code": "3297760097020",
+            "brands": ["Charles & Alice"],
+            "nutriments": {
+                "carbohydrates_100g": 13,
+                "energy-kcal_100g": 57,
+                "energy-kj_100g": 243,
+                "fat_100g": 0.5,
+                "fiber_100g": 1.5,
+                "proteins_100g": 0.6,
+                "salt_100g": 0.01,
+                "saturated-fat_100g": 0.1,
+                "sodium_100g": 0.004,
+                "sugars_100g": 11
+            },
+            "product_name": "Pommes Pêches",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Aliments à base de fruits et de légumes, Desserts, Fruits et produits dérivés, Fruits, Compotes, Compotes de pomme, Compotes pommes pêche",
+            "image_url": "https://images.openfoodfacts.org/images/products/329/776/009/7020/front_fr.33.400.jpg"
+        },
+        {
+            "code": "3760032210200",
+            "brands": ["Priméale"],
+            "nutriments": {
+                "energy-kcal_100g": 89.5,
+                "proteins_100g": 1.87,
+                "sugars_100g": 0.7,
+                "carbohydrates_100g": 19.1,
+                "fat_100g": 0.22,
+                "fiber_100g": 1.8,
+                "saturated-fat_100g": 0.026,
+                "salt_100g": 0,
+                "energy-kj_100g": 379,
+                "sodium_100g": 0
+            },
+            "product_name": "Pommes de terre vapeur gratin à rissoler",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Aliments à base de fruits et de légumes, Légumes et dérivés, Frais, Aliments à base de plantes frais, Légumes frais, Pommes de terre",
+            "image_url": "https://images.openfoodfacts.org/images/products/376/003/221/0200/front_fr.25.400.jpg"
+        },
+        {
+            "code": "3256224701705",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 23,
+                "energy-kj_100g": 605,
+                "fat_100g": 4.4,
+                "fiber_100g": 1.9,
+                "proteins_100g": 2.1,
+                "salt_100g": 0.08,
+                "saturated-fat_100g": 0.5,
+                "sodium_100g": 0.032,
+                "sugars_100g": 0.5
+            },
+            "product_name": "Pommes rissolées",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Surgelés, Pommes de terre préparées, Pommes de terre rissolées, Pommes de terre normales préfrites surgelées, Pommes de terre, Pommes de terre rissolées surgelées, Pommes rissolées surgelées cuites, en:frozen-pre-fried-potato-cubes",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/470/1705/front.5.400.jpg"
+        },
+        {
+            "code": "3254560162891",
+            "brands": ["Mmm !"],
+            "product_name": "Pommes de terre micro-ondables",
+            "categories": "Pommes de terre",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/456/016/2891/front_fr.16.400.jpg"
+        },
+        {
+            "code": "3596710375684",
+            "brands": ["Auchan"],
+            "nutriments": {
+                "carbohydrates_100g": 23,
+                "energy-kcal_100g": 245,
+                "energy-kj_100g": 1022,
+                "fat_100g": 14,
+                "fiber_100g": 2.2,
+                "proteins_100g": 4.9,
+                "salt_100g": 1.2,
+                "saturated-fat_100g": 1.9,
+                "sodium_100g": 0.48,
+                "sugars_100g": 6.5
+            },
+            "product_name": "Pommes Dauphine",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Chips et frites, Surgelés, Pommes de terre normales préfrites surgelées, Pommes de terre, Pommes dauphines, Pommes dauphines surgelées, en:Chips et frites, en:Pommes dauphines, en:Pommes dauphines surgelées, en:Pommes de terre préfrites surgelées, en:Surgelés",
+            "image_url": "https://images.openfoodfacts.org/images/products/359/671/037/5684/front.5.400.jpg"
+        },
+        {
+            "code": "3256225041763",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 12,
+                "energy-kj_100g": 245,
+                "fat_100g": 0.6,
+                "fiber_100g": 1.5,
+                "proteins_100g": 0.4,
+                "salt_100g": 0,
+                "saturated-fat_100g": 0.22,
+                "sodium_100g": 0,
+                "sugars_100g": 10.9
+            },
+            "product_name": "16 Pots Pomme",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Aliments à base de fruits et de légumes, Desserts, Fruits et produits dérivés, Compotes, Compotes de pomme",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/504/1763/front_fr.6.400.jpg"
+        },
+        {
+            "code": "3256221967173",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 11.6,
+                "energy-kj_100g": 235,
+                "fat_100g": 0.4,
+                "fiber_100g": 1.5,
+                "proteins_100g": 0.5,
+                "salt_100g": 0,
+                "saturated-fat_100g": 0.15,
+                "sodium_100g": 0,
+                "sugars_100g": 10.4
+            },
+            "product_name": "Purée pommes pêches / Spécialité de pommes abricots sans sucres ajoutés",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Aliments à base de fruits et de légumes, Desserts, Fruits et produits dérivés, Compotes, Compotes de pomme, Compotes pommes abricot, Compotes pommes pêche",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/196/7173/front.9.400.jpg"
+        },
+        {
+            "code": "3596710481163",
+            "brands": ["Auchan"],
+            "nutriments": {
+                "carbohydrates_100g": 21,
+                "energy-kcal_100g": 138,
+                "energy-kj_100g": 580,
+                "fat_100g": 4.6,
+                "fiber_100g": 2.1,
+                "proteins_100g": 2.1,
+                "salt_100g": 0.42,
+                "saturated-fat_100g": 0.6,
+                "sodium_100g": 0.168,
+                "sugars_100g": 0.5
+            },
+            "product_name": "Les pommes de terre grenaille",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Surgelés, Aliments à base de plantes surgelés, Pommes de terre, Pommes de terre surgelées",
+            "image_url": "https://images.openfoodfacts.org/images/products/359/671/048/1163/front_fr.30.400.jpg"
+        },
+        {
+            "code": "3663362013513",
+            "brands": ["Priméale® Gourmet"],
+            "nutriments": {
+                "carbohydrates_100g": 15.9,
+                "energy-kcal_100g": 76,
+                "energy-kj_100g": 324,
+                "fat_100g": 0.5,
+                "proteins_100g": 1.9,
+                "salt_100g": 0.06,
+                "saturated-fat_100g": 0.1,
+                "sodium_100g": 0.024,
+                "sugars_100g": 0.2
+            },
+            "product_name": "Pommes de terre GRENAILLES MINUTE",
+            "categories": "Plant-based foods,Cereals and potatoes,Potatoes",
+            "image_url": "https://images.openfoodfacts.org/images/products/366/336/201/3513/front_en.48.400.jpg"
+        },
+        {
+            "code": "3292590836634",
+            "brands": ["Thiriet"],
+            "nutriments": {
+                "carbohydrates_100g": 24,
+                "energy-kcal_100g": 152,
+                "fat_100g": 4.8,
+                "proteins_100g": 2.5,
+                "salt_100g": 0.14,
+                "saturated-fat_100g": 0.4,
+                "sodium_100g": 0.056,
+                "sugars_100g": 0
+            },
+            "product_name": "Pomme Rissolées",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Surgelés, Pommes de terre préparées, Pommes de terre rissolées, Pommes de terre normales préfrites surgelées, Pommes de terre, Pommes de terre rissolées surgelées, Pommes rissolées surgelées cuites, en:frozen-pre-fried-potato-cubes",
+            "image_url": "https://images.openfoodfacts.org/images/products/329/259/083/6634/front_fr.21.400.jpg"
+        },
+        {
+            "code": "3256227455728",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 19,
+                "energy-kcal_100g": 120,
+                "energy-kj_100g": 503,
+                "fat_100g": 3.3,
+                "fiber_100g": 2.4,
+                "proteins_100g": 2.2,
+                "salt_100g": 0.12,
+                "saturated-fat_100g": 0.4,
+                "sodium_100g": 0.048,
+                "sugars_100g": 0.7
+            },
+            "product_name": "Pommes rissolées",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Surgelés, Pommes de terre préparées, Pommes de terre rissolées, Pommes de terre normales préfrites surgelées, Pommes de terre, Pommes de terre rissolées surgelées, Pommes rissolées surgelées cuites, en:frozen-pre-fried-potato-cubes",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/745/5728/front_fr.27.400.jpg"
+        },
+        {
+            "code": "3564700447444",
+            "brands": ["Notre Jardin", "Marque Repère"],
+            "nutriments": {
+                "proteins_100g": 2,
+                "energy-kcal_100g": 77,
+                "sugars_100g": 0.5,
+                "carbohydrates_100g": 15.800000190735,
+                "salt_100g": 0.10000000149012,
+                "saturated-fat_100g": 0.10000000149012,
+                "fiber_100g": 2.1,
+                "fat_100g": 0.20000000298023,
+                "sodium_100g": 0.040000000596048
+            },
+            "product_name": "Notre Jardin - Spéciales Four & Potage - Pommes de terre",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Aliments à base de fruits et de légumes, Légumes et dérivés, Frais, Aliments à base de plantes frais, Légumes frais, Pommes de terre, Pommes de terre Agata",
+            "image_url": "https://images.openfoodfacts.org/images/products/356/470/044/7444/front_fr.5.400.jpg"
+        },
+        {
+            "code": "20247713",
+            "brands": ["Côté Marché"],
+            "product_name": "Pommes bicolores Joburn",
+            "categories": "Plant-based foods and beverages,Plant-based foods,Fruits and vegetables based foods,Fruits based foods,Fruits,Apples,Fresh fruits,Fresh apples",
+            "image_url": "https://images.openfoodfacts.org/images/products/20247713/front.4.400.jpg"
+        },
+        {
+            "code": "3663362015159",
+            "brands": ["Priméale"],
+            "nutriments": {
+                "carbohydrates_100g": 17.5,
+                "energy-kcal_100g": 77,
+                "fat_100g": 0.09,
+                "proteins_100g": 2.05,
+                "salt_100g": 0.015,
+                "saturated-fat_100g": 0.03,
+                "sodium_100g": 0.006,
+                "sugars_100g": 0.82
+            },
+            "product_name": "Pommes de terre salade vapeur",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pommes de terre",
+            "image_url": "https://images.openfoodfacts.org/images/products/366/336/201/5159/front_fr.23.400.jpg"
+        },
+        {
+            "code": "2000000248585",
+            "brands": ["Hyper U"],
+            "nutriments": {
+                "carbohydrates_100g": 38,
+                "energy-kcal_100g": 347,
+                "fat_100g": 19,
+                "fiber_100g": 2.1,
+                "proteins_100g": 2,
+                "salt_100g": 0.67,
+                "saturated-fat_100g": 12,
+                "sodium_100g": 0.268,
+                "sugars_100g": 12
+            },
+            "product_name": "Chausson aux pommes",
+            "categories": "Snacks, Snacks sucrés, en:Sweet pastries and pies, Viennoiseries, Chaussons aux pommes, en:Chaussons aux pommes, en:Snacks sucrés",
+            "image_url": "https://images.openfoodfacts.org/images/products/200/000/024/8585/front_fr.24.400.jpg"
+        },
+        {
+            "code": "3256220178112",
+            "brands": ["U"],
+            "nutriments": {
+                "carbohydrates_100g": 11.8,
+                "energy-kcal_100g": 57,
+                "energy-kj_100g": 240,
+                "fat_100g": 0.6,
+                "fiber_100g": 1.5,
+                "proteins_100g": 0.4,
+                "salt_100g": 0.003,
+                "saturated-fat_100g": 0.22,
+                "sodium_100g": 0.0012,
+                "sugars_100g": 10.7
+            },
+            "product_name": "Purée de fruits aux pommes sans sucres ajoutés",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Aliments à base de fruits et de légumes, Desserts, Fruits et produits dérivés, Compotes, Compotes de pomme",
+            "image_url": "https://images.openfoodfacts.org/images/products/325/622/017/8112/front.5.400.jpg"
+        },
+        {
+            "code": "3760032210316",
+            "brands": ["Priméale"],
+            "nutriments": {
+                "carbohydrates_100g": 15.8,
+                "energy-kcal_100g": 75.2,
+                "energy-kj_100g": 341,
+                "fat_100g": 0.22,
+                "fiber_100g": 2,
+                "proteins_100g": 2,
+                "salt_100g": 0.0975,
+                "saturated-fat_100g": 0.03,
+                "sodium_100g": 0.039,
+                "sugars_100g": 0.51
+            },
+            "product_name": "Pommes de terre",
+            "categories": "Aliments et boissons à base de végétaux, Aliments d'origine végétale, Céréales et pommes de terre, Pommes de terre",
+            "image_url": "https://images.openfoodfacts.org/images/products/376/003/221/0316/front_fr.9.400.jpg"
+        }
+    ],
+    "aggregations": null,
+    "facets": {},
+    "charts": {},
+    "page": 1,
+    "page_size": 20,
+    "page_count": 500,
+    "debug": {
+        "query": {
+            "query": {
+                "bool": {
+                    "should": [
+                        { "match_phrase": { "product_name.fr": { "query": "pomme", "boost": 2 } } },
+                        { "match_phrase": { "generic_name.fr": { "query": "pomme", "boost": 2 } } },
+                        { "match_phrase": { "categories.fr": { "query": "pomme", "boost": 2 } } },
+                        { "match_phrase": { "labels.fr": { "query": "pomme", "boost": 2 } } },
+                        { "match_phrase": { "brands": { "query": "pomme", "boost": 2 } } },
+                        {
+                            "multi_match": {
+                                "query": "pomme",
+                                "fields": [
+                                    "product_name.fr",
+                                    "generic_name.fr",
+                                    "categories.fr",
+                                    "labels.fr",
+                                    "brands"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "size": 20,
+            "from": 0
+        }
+    },
+    "took": 25,
+    "timed_out": false,
+    "count": 10000,
+    "is_count_exact": false,
+    "warnings": null
+}
