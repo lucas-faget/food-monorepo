@@ -34,11 +34,31 @@ const c = defineModel<number>("count");
 
 const table = useTemplateRef("table");
 
+const columnVisibility = ref({
+    barcode: false,
+    image: true,
+});
+
 const columns: TableColumn<Product>[] = [
     {
         accessorKey: "barcode",
         header: "#",
         cell: ({ row }) => `#${row.getValue("barcode")}`,
+    },
+    {
+        id: "image",
+        accessorKey: "imageUrl",
+        header: "Image",
+        cell: ({ row }) => {
+            const url = row.getValue("image") as string;
+            if (!url) return null;
+            return h("img", {
+                src: url,
+                alt: row.getValue("name"),
+                class: "min-w-12 w-16 h-16 object-cover object-center rounded cursor-pointer hover:scale-110 transition",
+                onClick: () => openPreview(url),
+            });
+        },
     },
     {
         accessorKey: "name",
@@ -55,7 +75,7 @@ const columns: TableColumn<Product>[] = [
         accessorKey: "categories",
         header: "Category",
         cell: ({ row }) => {
-            const value = row.getValue("category") as string;
+            const value: string = row.getValue("category");
             const [category] = value.split(",");
             if (!category) return null;
             return h(
@@ -132,9 +152,23 @@ function getRowItems(row: Row<Product>) {
 }
 
 const pageSizeItems = ref<number[]>([5, 10, 20, 50, 100]);
+
+const imageModalOpen = ref<boolean>(false);
+const previewImageUrl = ref<string | null>(null);
+
+function openPreview(url: string) {
+    imageModalOpen.value = true;
+    previewImageUrl.value = url;
+}
 </script>
 
 <template>
+    <UModal v-model:open="imageModalOpen" :scrollable="true">
+        <template #content>
+            <img v-if="previewImageUrl" :src="previewImageUrl" class="rounded-lg" alt="Preview image" />
+        </template>
+    </UModal>
+
     <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
@@ -164,7 +198,14 @@ const pageSizeItems = ref<number[]>([5, 10, 20, 50, 100]);
                 </UDropdownMenu>
             </div>
         </div>
-        <UTable ref="table" :data="products" :columns="columns" :loading="loading" class="flex-1" />
+        <UTable
+            ref="table"
+            v-model:column-visibility="columnVisibility"
+            :data="products"
+            :columns="columns"
+            :loading="loading"
+            class="flex-1"
+        />
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <USelect v-model="ps" :items="pageSizeItems" />
