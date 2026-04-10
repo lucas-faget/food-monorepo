@@ -1,4 +1,4 @@
-import type { SearchResult, Product } from "~/types/food";
+import type { PaginatedResult, Product } from "~/types/food";
 
 export const useFood = () => {
     const api = useApi();
@@ -7,9 +7,9 @@ export const useFood = () => {
         return api<Product>(`/food/${barcode}`);
     };
 
-    const search = (q: string, page = 1, pageSize = 20) => {
-        return api<SearchResult>("/food", {
-            query: { q, page, page_size: pageSize },
+    const search = (query: string, page: number = 1, perPage: number = 20) => {
+        return api<PaginatedResult<Product>>("/food", {
+            query: { q: query, page, page_size: perPage },
         });
     };
 

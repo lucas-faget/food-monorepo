@@ -12,11 +12,9 @@ export default class ProductsController {
      */
     public async index({ request, response }: HttpContext) {
         const page = request.input('page', 1)
-        const pageSize = request.input('page_size', 20)
+        const perPage = request.input('page_size', 20)
 
-        const products = await Product.query()
-            .orderBy('created_at', 'desc')
-            .paginate(page, pageSize)
+        const products = await Product.query().orderBy('created_at', 'desc').paginate(page, perPage)
 
         return response.ok(products)
     }

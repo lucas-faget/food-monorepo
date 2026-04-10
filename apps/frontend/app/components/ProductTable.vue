@@ -13,13 +13,10 @@ const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 const { copy } = useClipboard();
 
-const props = withDefaults(
+withDefaults(
     defineProps<{
         products: Product[];
-        query: string;
-        page: number;
-        pageSize: number;
-        count: number;
+        total: number;
         loading?: boolean;
     }>(),
     {
@@ -27,10 +24,13 @@ const props = withDefaults(
     },
 );
 
-const q = defineModel<string>("query");
-const p = defineModel<number>("page");
-const ps = defineModel<number>("pageSize");
-const c = defineModel<number>("count");
+const query = defineModel<string>("query");
+const page = defineModel<number>("page");
+const perPage = defineModel<number>("perPage");
+
+watch([query, perPage], () => {
+    page.value = 1;
+});
 
 const table = useTemplateRef("table");
 
@@ -51,7 +51,7 @@ const columns: TableColumn<Product>[] = [
         header: "Image",
         cell: ({ row }) => {
             const url = row.getValue("image") as string;
-            if (!url) return null;
+            if (!url) return h("div");
             return h("img", {
                 src: url,
                 alt: row.getValue("name"),
@@ -75,9 +75,14 @@ const columns: TableColumn<Product>[] = [
         accessorKey: "categories",
         header: "Category",
         cell: ({ row }) => {
-            const value: string = row.getValue("category");
+            const value = row.getValue("category");
+            if (!value || typeof value !== "string") {
+                return h("div");
+            }
             const [category] = value.split(",");
-            if (!category) return null;
+            if (!category) {
+                return h("div");
+            }
             return h(
                 UBadge,
                 {
@@ -151,7 +156,7 @@ function getRowItems(row: Row<Product>) {
     ];
 }
 
-const pageSizeItems = ref<number[]>([5, 10, 20, 50, 100]);
+const pageSizes = ref<number[]>([5, 10, 20, 50, 100]);
 
 const imageModalOpen = ref<boolean>(false);
 const previewImageUrl = ref<string | null>(null);
@@ -172,7 +177,7 @@ function openPreview(url: string) {
     <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
-                <UInput v-model="q" :loading icon="i-lucide-search" size="lg" placeholder="Search food..." />
+                <UInput v-model="query" :loading icon="i-lucide-search" size="lg" placeholder="Search food..." />
             </div>
             <div class="flex items-center">
                 <UDropdownMenu
@@ -208,11 +213,11 @@ function openPreview(url: string) {
         />
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <USelect v-model="ps" :items="pageSizeItems" />
+                <USelect v-model="perPage" :items="pageSizes" />
                 <span>products per page</span>
             </div>
             <div class="flex items-center gap-4">
-                <UPagination v-model:page="p" :items-per-page="ps" :total="c" size="lg" />
+                <UPagination v-model:page="page" :items-per-page="perPage" :total="total" size="lg" />
             </div>
         </div>
     </div>

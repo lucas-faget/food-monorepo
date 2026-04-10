@@ -36,10 +36,10 @@ export default class FoodController {
     public async search({ request, response }: HttpContext) {
         const query: string = request.input('q')
         const page: number = request.input('page', 1)
-        const pageSize: number = request.input('page_size', 20)
+        const perPage: number = request.input('page_size', 20)
 
         try {
-            const data = await this.service.searchProduct(query, page, pageSize)
+            const data = await this.service.searchProduct(query, page, perPage)
             return response.ok(data)
         } catch {
             return response.internalServerError({ message: 'Error searching products' })

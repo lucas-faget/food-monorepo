@@ -2,7 +2,7 @@ import { OpenFoodFacts, SearchApi } from '@openfoodfacts/openfoodfacts-nodejs'
 
 export default class OpenFoodFactsService {
     private fields = ['code', 'product_name', 'brands', 'categories', 'image_url', 'nutriments']
-    private pageSize: number = 20
+    private perPage: number = 20
 
     private client: OpenFoodFacts
     private searchClient: SearchApi
@@ -26,12 +26,16 @@ export default class OpenFoodFactsService {
         return this.productDTO(p)
     }
 
-    public async searchProduct(query: string = '', page = 1, pageSize = this.pageSize) {
+    public async searchProduct(
+        query: string = '',
+        page: number = 1,
+        perPage: number = this.perPage
+    ) {
         const { data } = await this.searchClient.search({
             fields: this.fields,
             langs: ['fr'],
             page,
-            page_size: pageSize,
+            page_size: perPage,
             q: query,
         })
 
@@ -40,11 +44,12 @@ export default class OpenFoodFactsService {
         }
 
         return {
-            page: data.page,
-            page_count: data.page_count,
-            page_size: data.page_size,
-            count: data.count,
-            products: data.hits.map((p) => this.productDTO(p)),
+            data: data.hits.map((p) => this.productDTO(p)),
+            meta: {
+                total: data.count,
+                perPage: data.page_size,
+                currentPage: data.page,
+            },
         }
     }
 
