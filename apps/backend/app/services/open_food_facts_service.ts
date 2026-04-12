@@ -1,7 +1,17 @@
 import { OpenFoodFacts, SearchApi } from '@openfoodfacts/openfoodfacts-nodejs'
 
 export default class OpenFoodFactsService {
-    private fields = ['code', 'product_name', 'brands', 'categories', 'image_url', 'nutriments']
+    private fields = [
+        'code',
+        'product_name',
+        'brands',
+        'categories',
+        'image_url',
+        'serving_quantity',
+        'serving_quantity_unit',
+        'nutriments',
+        'nutriscore_grade',
+    ]
     private perPage: number = 20
 
     private client: OpenFoodFacts
@@ -60,7 +70,10 @@ export default class OpenFoodFactsService {
             brand: Array.isArray(p.brands) ? p.brands[0] : p.brands,
             categories: p.categories,
             imageUrl: p.image_url,
+            servingSize: p.serving_quantity,
+            servingSizeUnit: p.serving_quantity_unit,
             nutriments: p.nutriments,
+            nutriScore: p.nutriscore_grade,
         }
     }
 }

@@ -12,7 +12,10 @@ export default class extends BaseSchema {
             table.string('brand').nullable()
             table.string('categories').nullable()
             table.string('image_url').nullable()
-            table.json('nutriments').nullable()
+            table.integer('serving_size').nullable().defaultTo(100)
+            table.string('serving_size_unit').nullable().defaultTo('g')
+            table.json('nutrients').nullable()
+            table.string('nutri_score').nullable()
 
             table.timestamp('created_at')
             table.timestamp('updated_at')

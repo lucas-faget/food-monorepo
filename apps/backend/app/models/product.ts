@@ -17,11 +17,20 @@ export default class Product extends BaseModel {
     @column()
     declare categories: string | null
 
+    @column({ columnName: 'serving_size' })
+    declare servingSize: number | null
+
+    @column({ columnName: 'serving_size_unit' })
+    declare servingSizeUnit: string | null
+
     @column({ columnName: 'image_url' })
     declare imageUrl: string | null
 
     @column()
-    declare nutriments: Record<string, number | string> | null
+    declare nutrients: Record<string, number | string> | null
+
+    @column({ columnName: 'nutri_score' })
+    declare nutriScore: string | null
 
     @column.dateTime({ autoCreate: true })
     declare createdAt: DateTime

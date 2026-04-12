@@ -7,10 +7,13 @@ export const createProductValidator = vine.compile(
         brand: vine.string().trim().nullable().optional(),
         categories: vine.string().trim().nullable().optional(),
         imageUrl: vine.string().trim().url().nullable().optional(),
-        nutriments: vine
+        servingSize: vine.number().nullable().optional(),
+        servingSizeUnit: vine.string().trim().nullable().optional(),
+        nutrients: vine
             .record(vine.unionOfTypes([vine.number(), vine.string()]))
             .nullable()
             .optional(),
+        nutriScore: vine.string().trim().nullable().optional(),
     })
 )
 
@@ -21,9 +24,12 @@ export const updateProductValidator = vine.compile(
         brand: vine.string().trim().nullable().optional(),
         categories: vine.string().trim().nullable().optional(),
         imageUrl: vine.string().trim().url().nullable().optional(),
-        nutriments: vine
+        servingSize: vine.number().nullable().optional(),
+        servingSizeUnit: vine.string().trim().nullable().optional(),
+        nutrients: vine
             .record(vine.unionOfTypes([vine.number(), vine.string()]))
             .nullable()
             .optional(),
+        nutriScore: vine.string().trim().nullable().optional(),
     })
 )
