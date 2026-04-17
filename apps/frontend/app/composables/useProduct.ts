@@ -2,6 +2,7 @@ import type { PaginatedResult, Product } from "~/types/food";
 
 export const useProduct = () => {
     const api = useApi();
+    const { handle } = useApiRequest();
 
     const getProducts = (page: number = 1, pageSize: number = 20) => {
         return api<PaginatedResult<Product>>("/products", {
@@ -17,23 +18,44 @@ export const useProduct = () => {
     };
 
     const createProduct = (payload: Partial<Product>) => {
-        return api<Product>("/products", {
-            method: "POST",
-            body: payload,
-        });
+        return handle(
+            () =>
+                api<Product>("/products", {
+                    method: "POST",
+                    body: payload,
+                }),
+            {
+                successMessage: "Product created successfully",
+                errorMessage: "Failed to create product",
+            },
+        );
     };
 
     const updateProduct = (id: number, payload: Partial<Product>) => {
-        return api<Product>(`/products/${id}`, {
-            method: "PUT",
-            body: payload,
-        });
+        return handle(
+            () =>
+                api<Product>(`/products/${id}`, {
+                    method: "PUT",
+                    body: payload,
+                }),
+            {
+                successMessage: "Product updated successfully",
+                errorMessage: "Failed to update product",
+            },
+        );
     };
 
     const deleteProduct = (id: number) => {
-        return api<void>(`/products/${id}`, {
-            method: "DELETE",
-        });
+        return handle(
+            () =>
+                api<void>(`/products/${id}`, {
+                    method: "DELETE",
+                }),
+            {
+                successMessage: "Product deleted successfully",
+                errorMessage: "Failed to delete product",
+            },
+        );
     };
 
     return {
