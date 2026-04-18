@@ -125,7 +125,7 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
             class="peer-data-[variant=inset]:ring-default bg-default flex flex-1 flex-col overflow-hidden peer-data-[variant=inset]:m-4 peer-data-[variant=inset]:rounded-xl peer-data-[variant=inset]:shadow-sm peer-data-[variant=inset]:ring lg:peer-data-[variant=floating]:my-4 lg:peer-data-[variant=inset]:not-peer-data-[collapsible=offcanvas]:ms-0"
         >
             <div
-                class="flex h-(--ui-header-height) shrink-0 items-center gap-6 px-4"
+                class="flex h-(--ui-header-height) shrink-0 items-center gap-2.5 px-4"
                 :class="[variant !== 'floating' && 'border-default border-b', side === 'right' && 'justify-end']"
             >
                 <UButton
@@ -137,6 +137,10 @@ const userItems = computed<DropdownMenuItem[][]>(() => [
                 />
 
                 <Breadcrumb />
+
+                <div class="ml-auto flex items-center gap-2.5">
+                    <PageActions />
+                </div>
             </div>
 
             <div class="flex-1 p-4">

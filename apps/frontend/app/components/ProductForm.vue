@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import * as v from "valibot";
-import type { Nutrients } from "~/types/food";
+import type { Nutrients, Product } from "~/types/food";
+
+const { createProduct } = useProduct();
 
 const tab = ref<"product" | "nutrients">("product");
 const servingTab = ref<"serving" | "quantity_100">("serving");
@@ -97,105 +99,106 @@ const nutrimentFields = [
 /**
  * Submit
  */
-const onSubmit = (event: any) => {
-    console.log(event.data);
+const onSubmit = async (event: any) => {
+    const payload: Partial<Product> = {
+        ...event.data,
+        categories: event.data.categories.join(","),
+        imageUrl: event.data.imageUrl ? `https://${event.data.imageUrl}` : "",
+        nutrients: Object.fromEntries(Object.entries(event.data.nutrients).filter(([_, value]) => value !== undefined)),
+    };
+
+    await createProduct(payload);
 };
 </script>
 
 <template>
-    <UModal title="Create a product" scrollable>
-        <UButton label="Open" color="neutral" variant="subtle" />
+    <UForm :state="state" :schema="schema" class="flex flex-col gap-4" @submit="onSubmit">
+        <!-- Tabs -->
+        <UTabs
+            variant="link"
+            v-model="tab"
+            :items="[
+                { label: 'Product', value: 'product', icon: 'i-lucide-package' },
+                { label: 'Nutrients', value: 'nutrients', icon: 'i-lucide-sliders-horizontal' },
+            ]"
+            class="w-full"
+        />
 
-        <template #body>
-            <UForm :state="state" :schema="schema" class="flex flex-col gap-4" @submit="onSubmit">
-                <!-- Tabs -->
+        <div class="flex-1 space-y-4">
+            <!-- Product -->
+            <div v-if="tab === 'product'" class="grid grid-cols-1 gap-4">
+                <UFormField label="Name" name="name" required>
+                    <UInput v-model="state.name" placeholder="Name" class="w-full" />
+                </UFormField>
+
+                <UFormField label="Brand" name="brand">
+                    <UInput v-model="state.brand" placeholder="Brand" class="w-full" />
+                </UFormField>
+
+                <UFormField label="Categories" name="categories">
+                    <UInputTags v-model="state.categories" class="w-full" />
+                </UFormField>
+
+                <UFormField label="Image" name="imageUrl">
+                    <UFieldGroup class="w-full">
+                        <UBadge color="neutral" variant="subtle" size="lg" label="https://" />
+                        <UInput v-model="state.imageUrl" placeholder="www.example.com" class="flex-1" />
+                    </UFieldGroup>
+                </UFormField>
+            </div>
+
+            <!-- Nutrients -->
+            <div v-else class="flex flex-col gap-6">
+                <UFormField label="Serving size" name="servingSize" required>
+                    <UFieldGroup class="w-full">
+                        <UInputNumber v-model="state.servingSize" class="flex-1" />
+                        <USelect v-model="state.servingSizeUnit" :items="units" variant="subtle" />
+                    </UFieldGroup>
+                </UFormField>
+
                 <UTabs
-                    variant="link"
-                    v-model="tab"
+                    v-model="servingTab"
                     :items="[
-                        { label: 'Product', value: 'product', icon: 'i-lucide-package' },
-                        { label: 'Nutrients', value: 'nutrients', icon: 'i-lucide-sliders-horizontal' },
+                        {
+                            label: `per serving (${state.servingSize} ${state.servingSizeUnit})`,
+                            value: 'serving',
+                        },
+                        {
+                            label: `per 100 ${state.servingSizeUnit}`,
+                            value: 'quantity_100',
+                        },
                     ]"
-                    class="w-full"
-                />
+                >
+                    <template #content="{ item }">
+                        <div class="mt-2 grid grid-cols-2 gap-4">
+                            <UFormField
+                                v-for="field in nutrimentFields"
+                                :key="field.key"
+                                :label="field.label"
+                                :name="`nutrients.${item.value === 'serving' ? field.key : field.key100}`"
+                                :required="field.required"
+                            >
+                                <UFieldGroup class="w-full">
+                                    <UInput
+                                        v-model="
+                                            state.nutrients[
+                                                `${item.value === 'serving' ? field.key : field.key100}` as keyof Nutrients
+                                            ]
+                                        "
+                                        type="number"
+                                        class="flex-1"
+                                    />
+                                    <UBadge color="neutral" variant="subtle" size="lg" :label="field.unit" />
+                                </UFieldGroup>
+                            </UFormField>
+                        </div>
+                    </template>
+                </UTabs>
+            </div>
 
-                <div class="flex-1 space-y-4">
-                    <!-- Product -->
-                    <div v-if="tab === 'product'" class="grid grid-cols-1 gap-4">
-                        <UFormField label="Name" name="name" required>
-                            <UInput v-model="state.name" placeholder="Name" class="w-full" />
-                        </UFormField>
-
-                        <UFormField label="Brand" name="brand">
-                            <UInput v-model="state.brand" placeholder="Brand" class="w-full" />
-                        </UFormField>
-
-                        <UFormField label="Categories" name="categories">
-                            <UInputTags v-model="state.categories" class="w-full" />
-                        </UFormField>
-
-                        <UFormField label="Image" name="imageUrl">
-                            <UFieldGroup class="w-full">
-                                <UBadge color="neutral" variant="subtle" size="lg" label="https://" />
-                                <UInput v-model="state.imageUrl" placeholder="www.example.com" class="flex-1" />
-                            </UFieldGroup>
-                        </UFormField>
-                    </div>
-
-                    <!-- Nutrients -->
-                    <div v-else class="flex flex-col gap-6">
-                        <UFormField label="Serving size" name="servingSize" required>
-                            <UFieldGroup class="w-full">
-                                <UInputNumber v-model="state.servingSize" class="flex-1" />
-                                <USelect v-model="state.servingSizeUnit" :items="units" variant="subtle" />
-                            </UFieldGroup>
-                        </UFormField>
-
-                        <UTabs
-                            v-model="servingTab"
-                            :items="[
-                                {
-                                    label: `per serving (${state.servingSize} ${state.servingSizeUnit})`,
-                                    value: 'serving',
-                                },
-                                {
-                                    label: `per 100 ${state.servingSizeUnit}`,
-                                    value: 'quantity_100',
-                                },
-                            ]"
-                        >
-                            <template #content="{ item }">
-                                <div class="mt-2 grid grid-cols-2 gap-4">
-                                    <UFormField
-                                        v-for="field in nutrimentFields"
-                                        :key="field.key"
-                                        :label="field.label"
-                                        :name="`nutrients.${item.value === 'serving' ? field.key : field.key100}`"
-                                        :required="field.required"
-                                    >
-                                        <UFieldGroup class="w-full">
-                                            <UInput
-                                                v-model="
-                                                    state.nutrients[
-                                                        `${item.value === 'serving' ? field.key : field.key100}` as keyof Nutrients
-                                                    ]
-                                                "
-                                                type="number"
-                                                class="flex-1"
-                                            />
-                                            <UBadge color="neutral" variant="subtle" size="lg" :label="field.unit" />
-                                        </UFieldGroup>
-                                    </UFormField>
-                                </div>
-                            </template>
-                        </UTabs>
-                    </div>
-
-                    <div class="flex justify-end pt-4">
-                        <UButton type="submit" color="primary">Create</UButton>
-                    </div>
-                </div>
-            </UForm>
-        </template>
-    </UModal>
+            <div class="flex justify-end pt-4">
+                <UButton type="submit" color="primary">Create</UButton>
+            </div>
+        </div>
+    </UForm>
 </template>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { PaginatedResult, Product } from "~/types/food";
+import type { Product } from "~/types/food";
+
+definePageMeta({
+    actions: ["createProduct"],
+});
 
 const query = ref<string>("");
 const page = ref<number>(1);
