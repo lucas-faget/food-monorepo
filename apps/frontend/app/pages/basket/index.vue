@@ -22,6 +22,7 @@ const total = computed<number>(() => data.value?.meta?.total ?? 0);
 
 <template>
     <ProductTable
+        productKey="id"
         :products
         :total
         v-model:query="query"

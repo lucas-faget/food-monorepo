@@ -21,6 +21,7 @@ const total = computed<number>(() => data.value?.meta?.total ?? 0);
 
 <template>
     <ProductTable
+        productKey="barcode"
         :products
         :total
         v-model:query="query"

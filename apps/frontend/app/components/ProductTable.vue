@@ -13,8 +13,9 @@ const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 const { copy } = useClipboard();
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
+        productKey: "barcode" | "id";
         products: Product[];
         total: number;
         loading?: boolean;
@@ -23,6 +24,8 @@ withDefaults(
         loading: false,
     },
 );
+
+console.log(props.productKey);
 
 const query = defineModel<string>("query");
 const page = defineModel<number>("page");
@@ -34,17 +37,21 @@ watch([query, perPage], () => {
 
 const table = useTemplateRef("table");
 
+const tab = ref<"list" | "grid">("list");
+
 const columnVisibility = ref({
     barcode: false,
     image: true,
 });
 
+const barcodeColumn: TableColumn<Product> = {
+    accessorKey: "barcode",
+    header: "#",
+    cell: ({ row }: { row: Row<Product> }) => row.getValue("barcode"),
+};
+
 const columns: TableColumn<Product>[] = [
-    {
-        accessorKey: "barcode",
-        header: "#",
-        cell: ({ row }) => `#${row.getValue("barcode")}`,
-    },
+    ...(props.productKey === "barcode" ? [barcodeColumn] : []),
     {
         id: "image",
         accessorKey: "imageUrl",
@@ -108,7 +115,7 @@ const columns: TableColumn<Product>[] = [
                     content: {
                         align: "end",
                     },
-                    items: getRowItems(row),
+                    items: getRowItems(row.original),
                     "aria-label": "Actions dropdown",
                 },
                 () =>
@@ -123,36 +130,57 @@ const columns: TableColumn<Product>[] = [
     },
 ];
 
-function getRowItems(row: Row<Product>) {
+function getMainItem(product: Product) {
+    switch (props.productKey) {
+        case "barcode":
+            return {
+                label: "Add product",
+                icon: "i-lucide-shopping-basket",
+            };
+        case "id":
+            return {
+                label: "New intake",
+                icon: "i-lucide-plus",
+            };
+    }
+}
+
+function getCopyBarcodeItem(product: Product) {
+    return {
+        label: "Copy barcode",
+        icon: "i-lucide-copy",
+        onSelect() {
+            copy(product.barcode);
+
+            toast.add({
+                title: "Barcode copied to clipboard!",
+                color: "success",
+                icon: "i-lucide-circle-check",
+            });
+        },
+    };
+}
+
+function getDeleteItem() {
+    return {
+        label: "Delete product",
+        icon: "i-lucide-trash-2",
+        color: "error",
+    };
+}
+
+function getRowItems(product: Product) {
     return [
         {
             type: "label",
             label: "Actions",
         },
-        {
-            label: "Copy barcode",
-            icon: "i-lucide-copy",
-            onSelect() {
-                copy(row.original.barcode);
-
-                toast.add({
-                    title: "Barcode copied to clipboard!",
-                    color: "success",
-                    icon: "i-lucide-circle-check",
-                });
-            },
-        },
-        {
-            type: "separator",
-        },
+        ...(tab.value === "list" ? [getMainItem(product), { type: "separator" }] : []),
         {
             label: "View product details",
             icon: "i-lucide-eye",
         },
-        {
-            label: "Add to my products",
-            icon: "i-lucide-shopping-basket",
-        },
+        ...(props.productKey === "barcode" ? [getCopyBarcodeItem(product)] : [getDeleteItem()]),
     ];
 }
 
@@ -179,7 +207,16 @@ function openPreview(url: string) {
             <div class="flex items-center">
                 <UInput v-model="query" :loading icon="i-lucide-search" size="lg" placeholder="Search food..." />
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center gap-2.5">
+                <UTabs
+                    v-model="tab"
+                    :items="[
+                        { value: 'list', icon: 'i-lucide-list' },
+                        { value: 'grid', icon: 'i-lucide-layout-grid' },
+                    ]"
+                    size="sm"
+                    class="h-9"
+                />
                 <UDropdownMenu
                     :items="
                         table?.tableApi
@@ -203,7 +240,35 @@ function openPreview(url: string) {
                 </UDropdownMenu>
             </div>
         </div>
+        <div v-if="tab === 'grid'" class="flex flex-wrap gap-4">
+            <UPageCard
+                v-for="(product, index) in products"
+                :key="product[productKey] ?? index"
+                :title="product.name"
+                :description="product.brand ?? ''"
+                reverse
+                spotlight
+                class="w-56"
+                :ui="{ footer: 'w-full' }"
+            >
+                <template #footer>
+                    <div class="flex min-w-0 items-center gap-2.5">
+                        <UButton :icon="getMainItem(product).icon" block>{{ getMainItem(product).label }}</UButton>
+                        <UDropdownMenu :items="getRowItems(product)">
+                            <UButton icon="i-lucide-ellipsis-vertical" variant="outline" />
+                        </UDropdownMenu>
+                    </div>
+                </template>
+                <img
+                    v-if="product.imageUrl"
+                    :src="product.imageUrl"
+                    :alt="product.name"
+                    class="aspect-square w-full rounded object-cover"
+                />
+            </UPageCard>
+        </div>
         <UTable
+            v-else
             ref="table"
             v-model:column-visibility="columnVisibility"
             :data="products"
