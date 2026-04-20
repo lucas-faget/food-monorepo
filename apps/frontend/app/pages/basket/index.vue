@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DropdownMenuItem } from "@nuxt/ui";
 import type { Product } from "~/types/food";
 
 definePageMeta({
@@ -18,6 +19,22 @@ const { data, pending } = useAsyncData(
 
 const products = computed<Product[]>(() => data.value?.data ?? []);
 const total = computed<number>(() => data.value?.meta?.total ?? 0);
+
+const actions = (product: Product): DropdownMenuItem[] => [
+    {
+        label: "New intake",
+        icon: "i-lucide-plus",
+    },
+    {
+        label: "View product details",
+        icon: "i-lucide-eye",
+    },
+    {
+        label: "Delete product",
+        icon: "i-lucide-trash-2",
+        color: "error",
+    },
+];
 </script>
 
 <template>
@@ -28,6 +45,7 @@ const total = computed<number>(() => data.value?.meta?.total ?? 0);
         v-model:query="query"
         v-model:page="page"
         v-model:perPage="perPage"
+        :actions
         :loading="pending"
     />
 </template>

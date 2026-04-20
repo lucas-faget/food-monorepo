@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
-import type { TableColumn } from "@nuxt/ui";
+import type { DropdownMenuItem, TableColumn } from "@nuxt/ui";
 import type { Row } from "@tanstack/vue-table";
-import { useClipboard } from "@vueuse/core";
 import { upperFirst } from "scule";
 import type { Product } from "~/types/food";
 
@@ -10,22 +9,19 @@ const UButton = resolveComponent("UButton");
 const UBadge = resolveComponent("UBadge");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 
-const toast = useToast();
-const { copy } = useClipboard();
-
 const props = withDefaults(
     defineProps<{
         productKey: "barcode" | "id";
         products: Product[];
         total: number;
+        mainAction?: DropdownMenuItem;
+        actions?: (product: Product) => DropdownMenuItem[];
         loading?: boolean;
     }>(),
     {
         loading: false,
     },
 );
-
-console.log(props.productKey);
 
 const query = defineModel<string>("query");
 const page = defineModel<number>("page");
@@ -48,6 +44,34 @@ const barcodeColumn: TableColumn<Product> = {
     accessorKey: "barcode",
     header: "#",
     cell: ({ row }: { row: Row<Product> }) => row.getValue("barcode"),
+};
+
+const actionsColumn: TableColumn<Product> = {
+    id: "actions",
+    meta: {
+        class: {
+            td: "text-right",
+        },
+    },
+    cell: ({ row }) => {
+        return h(
+            UDropdownMenu,
+            {
+                content: {
+                    align: "end",
+                },
+                items: getRowItems(row.original),
+                "aria-label": "Actions dropdown",
+            },
+            () =>
+                h(UButton, {
+                    icon: "i-lucide-ellipsis-vertical",
+                    color: "neutral",
+                    variant: "ghost",
+                    "aria-label": "Actions dropdown",
+                }),
+        );
+    },
 };
 
 const columns: TableColumn<Product>[] = [
@@ -101,88 +125,28 @@ const columns: TableColumn<Product>[] = [
             );
         },
     },
-    {
-        id: "actions",
-        meta: {
-            class: {
-                td: "text-right",
-            },
-        },
-        cell: ({ row }) => {
-            return h(
-                UDropdownMenu,
-                {
-                    content: {
-                        align: "end",
-                    },
-                    items: getRowItems(row.original),
-                    "aria-label": "Actions dropdown",
-                },
-                () =>
-                    h(UButton, {
-                        icon: "i-lucide-ellipsis-vertical",
-                        color: "neutral",
-                        variant: "ghost",
-                        "aria-label": "Actions dropdown",
-                    }),
-            );
-        },
-    },
+    ...(props.actions ? [actionsColumn] : []),
 ];
 
-function getMainItem(product: Product) {
-    switch (props.productKey) {
-        case "barcode":
-            return {
-                label: "Add product",
-                icon: "i-lucide-shopping-basket",
-            };
-        case "id":
-            return {
-                label: "New intake",
-                icon: "i-lucide-plus",
-            };
-    }
-}
+const getMainAction = (product: Product): DropdownMenuItem | null => {
+    return props.actions?.(product)?.[0] ?? null;
+};
 
-function getCopyBarcodeItem(product: Product) {
-    return {
-        label: "Copy barcode",
-        icon: "i-lucide-copy",
-        onSelect() {
-            copy(product.barcode);
+const getRowItems = (product: Product): DropdownMenuItem[] => {
+    const items = props.actions?.(product) ?? [];
+    if (items.length === 0) return [];
 
-            toast.add({
-                title: "Barcode copied to clipboard!",
-                color: "success",
-                icon: "i-lucide-circle-check",
-            });
-        },
-    };
-}
-
-function getDeleteItem() {
-    return {
-        label: "Delete product",
-        icon: "i-lucide-trash-2",
-        color: "error",
-    };
-}
-
-function getRowItems(product: Product) {
     return [
         {
             type: "label",
             label: "Actions",
         },
-        ...(tab.value === "list" ? [getMainItem(product), { type: "separator" }] : []),
         {
-            label: "View product details",
-            icon: "i-lucide-eye",
+            type: "separator",
         },
-        ...(props.productKey === "barcode" ? [getCopyBarcodeItem(product)] : [getDeleteItem()]),
+        ...(tab.value === "grid" ? items.slice(1) : items),
     ];
-}
+};
 
 const pageSizes = ref<number[]>([5, 10, 20, 50, 100]);
 
@@ -253,8 +217,10 @@ function openPreview(url: string) {
             >
                 <template #footer>
                     <div class="flex min-w-0 items-center gap-2.5">
-                        <UButton :icon="getMainItem(product).icon" block>{{ getMainItem(product).label }}</UButton>
-                        <UDropdownMenu :items="getRowItems(product)">
+                        <UButton v-if="getMainAction(product)" :icon="getMainAction(product)?.icon" block>
+                            {{ getMainAction(product)?.label }}
+                        </UButton>
+                        <UDropdownMenu v-if="actions" :items="getRowItems(product)">
                             <UButton icon="i-lucide-ellipsis-vertical" variant="outline" />
                         </UDropdownMenu>
                     </div>
