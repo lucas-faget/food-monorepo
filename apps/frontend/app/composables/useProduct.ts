@@ -1,4 +1,5 @@
 import type { PaginatedResult, Product } from "~/types/food";
+import type { RequestOptions } from "~/types/RequestOptions";
 
 export const useProduct = () => {
     const api = useApi();
@@ -17,17 +18,20 @@ export const useProduct = () => {
         return api<Product>(`/products/${id}`);
     };
 
-    const createProduct = (payload: Partial<Product>) => {
+    const createProduct = (
+        payload: Partial<Product>,
+        options: RequestOptions<Product> = {
+            successMessage: "Product created successfully",
+            errorMessage: "Failed to create product",
+        },
+    ) => {
         return handle(
             () =>
                 api<Product>("/products", {
                     method: "POST",
                     body: payload,
                 }),
-            {
-                successMessage: "Product created successfully",
-                errorMessage: "Failed to create product",
-            },
+            options,
         );
     };
 

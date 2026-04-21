@@ -6,13 +6,15 @@ definePageMeta({
     actions: ["createProduct"],
 });
 
+const { deleteProduct } = useProduct();
+
 const query = ref<string>("");
 const page = ref<number>(1);
 const perPage = ref<number>(20);
 
 const { getProducts } = useProduct();
 
-const { data, pending } = useAsyncData(
+const { data, pending, refresh } = useAsyncData(
     () => `food-${page.value}-${perPage.value}`,
     () => getProducts(page.value, perPage.value),
 );
@@ -33,6 +35,11 @@ const actions = (product: Product): DropdownMenuItem[] => [
         label: "Delete product",
         icon: "i-lucide-trash-2",
         color: "error",
+        async onSelect() {
+            if (!product.id) return;
+            await deleteProduct(product.id);
+            await refresh();
+        },
     },
 ];
 </script>

@@ -3,6 +3,7 @@ import type { DropdownMenuItem } from "@nuxt/ui";
 import { useClipboard } from "@vueuse/core";
 import type { Product } from "~/types/food";
 
+const { createProduct } = useProduct();
 const toast = useToast();
 const { copy } = useClipboard();
 
@@ -27,6 +28,13 @@ const actions = (product: Product): DropdownMenuItem[] => [
     {
         label: "Add product",
         icon: "i-lucide-shopping-basket",
+        async onSelect() {
+            if (!product.name) product.name = `#${product.barcode}`;
+            await createProduct(product, {
+                successMessage: "Product added successfully",
+                errorMessage: "Failed to add product",
+            });
+        },
     },
     {
         label: "View product details",

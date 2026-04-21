@@ -1,10 +1,4 @@
-type RequestOptions<T> = {
-    notify?: boolean;
-    successMessage?: string;
-    errorMessage?: string;
-    onSuccess?: (data: T) => void;
-    onError?: (error: any) => void;
-};
+import type { RequestOptions } from "~/types/RequestOptions";
 
 export const useApiRequest = () => {
     const toast = useToast();

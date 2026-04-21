@@ -2,6 +2,7 @@
 import { h, resolveComponent } from "vue";
 import type { DropdownMenuItem, TableColumn } from "@nuxt/ui";
 import type { Row } from "@tanstack/vue-table";
+import { watchDebounced } from "@vueuse/core";
 import { upperFirst } from "scule";
 import type { Product } from "~/types/food";
 
@@ -27,9 +28,19 @@ const query = defineModel<string>("query");
 const page = defineModel<number>("page");
 const perPage = defineModel<number>("perPage");
 
+const q = ref(query.value);
+
 watch([query, perPage], () => {
     page.value = 1;
 });
+
+watchDebounced(
+    q,
+    (value: string) => {
+        query.value = value;
+    },
+    { debounce: 500 },
+);
 
 const table = useTemplateRef("table");
 
@@ -169,19 +180,11 @@ function openPreview(url: string) {
     <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
-                <UInput v-model="query" :loading icon="i-lucide-search" size="lg" placeholder="Search food..." />
+                <UInput v-model="q" :loading icon="i-lucide-search" size="lg" placeholder="Search food..." />
             </div>
             <div class="flex items-center gap-2.5">
-                <UTabs
-                    v-model="tab"
-                    :items="[
-                        { value: 'list', icon: 'i-lucide-list' },
-                        { value: 'grid', icon: 'i-lucide-layout-grid' },
-                    ]"
-                    size="sm"
-                    class="h-9"
-                />
                 <UDropdownMenu
+                    v-if="tab === 'list'"
                     :items="
                         table?.tableApi
                             ?.getAllColumns()
@@ -202,6 +205,15 @@ function openPreview(url: string) {
                 >
                     <UButton label="Columns" color="neutral" variant="outline" trailing-icon="i-lucide-chevron-down" />
                 </UDropdownMenu>
+                <UTabs
+                    v-model="tab"
+                    :items="[
+                        { value: 'list', icon: 'i-lucide-list' },
+                        { value: 'grid', icon: 'i-lucide-layout-grid' },
+                    ]"
+                    size="sm"
+                    class="h-9"
+                />
             </div>
         </div>
         <div v-if="tab === 'grid'" class="flex flex-wrap gap-4">
@@ -217,7 +229,12 @@ function openPreview(url: string) {
             >
                 <template #footer>
                     <div class="flex min-w-0 items-center gap-2.5">
-                        <UButton v-if="getMainAction(product)" :icon="getMainAction(product)?.icon" block>
+                        <UButton
+                            v-if="getMainAction(product)"
+                            :icon="getMainAction(product)?.icon"
+                            block
+                            @click="(e: Event) => getMainAction(product)?.onSelect?.(e)"
+                        >
                             {{ getMainAction(product)?.label }}
                         </UButton>
                         <UDropdownMenu v-if="actions" :items="getRowItems(product)">
