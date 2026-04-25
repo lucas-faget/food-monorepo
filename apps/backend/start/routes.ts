@@ -7,16 +7,11 @@
 |
 */
 
+import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
+import { controllers } from '#generated/controllers'
 import AutoSwagger from 'adonis-autoswagger'
 import swagger from '#config/swagger'
-
-const FoodController = () => import('#controllers/food_controller')
-const ProductsController = () => import('#controllers/products_controller')
-
-router.get('/food/:barcode', [FoodController, 'getProduct'])
-router.get('/food', [FoodController, 'search'])
-router.resource('products', ProductsController).apiOnly()
 
 router.get('/swagger', async () => {
     return AutoSwagger.default.docs(router.toJSON(), swagger)
@@ -24,3 +19,32 @@ router.get('/swagger', async () => {
 router.get('/docs', async () => {
     return AutoSwagger.default.ui('/swagger', swagger)
 })
+
+router.get('/', () => {
+    return { hello: 'world' }
+})
+
+router
+    .group(() => {
+        router
+            .group(() => {
+                router.post('signup', [controllers.NewAccount, 'store'])
+                router.post('login', [controllers.AccessTokens, 'store'])
+            })
+            .prefix('auth')
+            .as('auth')
+
+        router
+            .group(() => {
+                router.get('profile', [controllers.Profile, 'show'])
+                router.post('logout', [controllers.AccessTokens, 'destroy'])
+            })
+            .prefix('account')
+            .as('profile')
+            .use(middleware.auth())
+    })
+    .prefix('/api/v1')
+
+router.get('/food/:barcode', [controllers.Food, 'getProduct'])
+router.get('/food', [controllers.Food, 'search'])
+router.resource('products', controllers.Products).apiOnly()
