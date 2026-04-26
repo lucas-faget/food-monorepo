@@ -10,14 +10,31 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
-import AutoSwagger from 'adonis-autoswagger'
-import swagger from '#config/swagger'
+import { openapi } from '../docs/openapi.js'
 
-router.get('/swagger', async () => {
-    return AutoSwagger.default.docs(router.toJSON(), swagger)
+router.get('/openapi.json', async () => {
+    return openapi
 })
+
 router.get('/docs', async () => {
-    return AutoSwagger.default.ui('/swagger', swagger)
+    return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>API Docs</title>
+            </head>
+            <body>
+                <div id="scalar"></div>
+
+                <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+                <script>
+                    Scalar.createApiReference('#scalar', {
+                        url: '/openapi.json'
+                    })
+                </script>
+            </body>
+        </html>
+    `
 })
 
 router.get('/', () => {

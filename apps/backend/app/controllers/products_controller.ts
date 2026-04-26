@@ -4,11 +4,7 @@ import { createProductValidator, updateProductValidator } from '#validators/prod
 
 export default class ProductsController {
     /**
-     * @index
-     * @tag Products
-     * @paramQuery page - Page number - @type(number)
-     * @paramQuery page_size - Page size - @type(number)
-     * @responseBody 200 - <Product[]>.paginated()
+     * GET /products
      */
     public async index({ request, response }: HttpContext) {
         const page = request.input('page', 1)
@@ -20,11 +16,7 @@ export default class ProductsController {
     }
 
     /**
-     * @show
-     * @tag Products
-     * @paramPath id - Product ID - @type(number) @required
-     * @responseBody 200 - <Product>
-     * @responseBody 404 - {"message": "Product not found"}
+     * GET /products/:id
      */
     public async show({ params, response }: HttpContext) {
         const product = await Product.find(params.id)
@@ -37,10 +29,7 @@ export default class ProductsController {
     }
 
     /**
-     * @store
-     * @tag Products
-     * @requestBody <createProductValidator>
-     * @responseBody 201 - <Product>
+     * POST /products
      */
     public async store({ request, response }: HttpContext) {
         const payload = await request.validateUsing(createProductValidator)
@@ -51,12 +40,7 @@ export default class ProductsController {
     }
 
     /**
-     * @update
-     * @tag Products
-     * @paramPath id - Product ID - @type(number) @required
-     * @requestBody <updateProductValidator>
-     * @responseBody 200 - <Product>
-     * @responseBody 404 - {"message": "Product not found"}
+     * PUT /products/:id
      */
     public async update({ params, request, response }: HttpContext) {
         const product = await Product.find(params.id)
@@ -74,11 +58,7 @@ export default class ProductsController {
     }
 
     /**
-     * @destroy
-     * @tag Products
-     * @paramPath id - Product ID - @type(number) @required
-     * @responseBody 204 - No content
-     * @responseBody 404 - {"message": "Product not found"}
+     * DELETE /products/:id
      */
     public async destroy({ params, response }: HttpContext) {
         const product = await Product.find(params.id)

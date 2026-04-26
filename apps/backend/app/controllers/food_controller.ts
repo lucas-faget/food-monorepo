@@ -5,12 +5,7 @@ export default class FoodController {
     private service = new OpenFoodFactsService()
 
     /**
-     * @getProduct
-     * @tag OpenFoodFacts
-     * @summary Get product by barcode
-     * @paramPath barcode - Product barcode - @type(string) @required
-     * @responseBody 200 - Product
-     * @responseBody 500 - {"message": "Product not found"}
+     * GET /food/:barcode
      */
     public async getProduct({ params, response }: HttpContext) {
         const { barcode } = params
@@ -24,14 +19,7 @@ export default class FoodController {
     }
 
     /**
-     * @search
-     * @tag OpenFoodFacts
-     * @summary Search products
-     * @paramQuery q - Search query - @type(string)
-     * @paramQuery page - Page number - @type(number)
-     * @paramQuery page_size - Page size - @type(number)
-     * @responseBody 200 - Product list
-     * @responseBody 500 - {"message": "Error searching products"}
+     * GET /food
      */
     public async search({ request, response }: HttpContext) {
         const query: string = request.input('q')

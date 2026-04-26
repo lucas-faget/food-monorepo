@@ -4,9 +4,9 @@
  */
 
 export const controllers = {
-  AccessTokens: () => import('#controllers/access_tokens_controller'),
-  Food: () => import('#controllers/food_controller'),
-  NewAccount: () => import('#controllers/new_account_controller'),
-  Products: () => import('#controllers/products_controller'),
-  Profile: () => import('#controllers/profile_controller'),
+    AccessTokens: () => import('#controllers/access_tokens_controller'),
+    Food: () => import('#controllers/food_controller'),
+    NewAccount: () => import('#controllers/new_account_controller'),
+    Products: () => import('#controllers/products_controller'),
+    Profile: () => import('#controllers/profile_controller'),
 }
