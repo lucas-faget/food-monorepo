@@ -232,6 +232,7 @@ function openPreview(url: string) {
                         <UButton
                             v-if="getMainAction(product)"
                             :icon="getMainAction(product)?.icon"
+                            :variant="getMainAction(product)?.variant ?? 'solid'"
                             block
                             @click="(e: Event) => getMainAction(product)?.onSelect?.(e)"
                         >

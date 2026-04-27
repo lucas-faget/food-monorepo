@@ -11,6 +11,7 @@ export type Product = {
     servingSizeUnit: string | null;
     nutrients: Nutrients | null;
     nutriScore: string | null;
+    added?: boolean;
     createdAt?: string;
     updatedAt?: string;
 };

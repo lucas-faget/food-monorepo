@@ -24,18 +24,39 @@ const { data, pending } = useAsyncData(
 const products = computed<Product[]>(() => data.value?.data ?? []);
 const total = computed<number>(() => data.value?.meta?.total ?? 0);
 
-const actions = (product: Product): DropdownMenuItem[] => [
-    {
-        label: "Add product",
-        icon: "i-lucide-shopping-basket",
-        async onSelect() {
-            if (!product.name) product.name = `#${product.barcode}`;
-            await createProduct(product, {
-                successMessage: "Product added successfully",
-                errorMessage: "Failed to add product",
-            });
-        },
+const addProductAction = (product: Product): DropdownMenuItem => ({
+    label: "Add product",
+    icon: "i-lucide-shopping-basket",
+    async onSelect() {
+        if (!product.name) {
+            product.name = `#${product.barcode}`;
+        }
+
+        await createProduct(product, {
+            successMessage: "Product added successfully",
+            errorMessage: "Failed to add product",
+            onSuccess: () => {
+                product.added = true;
+            },
+        });
     },
+});
+
+const addedAction = (): DropdownMenuItem => ({
+    label: "Added",
+    icon: "i-lucide-check",
+    variant: "soft",
+    async onSelect() {
+        toast.add({
+            title: "Product already added",
+            color: "info",
+            icon: "i-lucide-info",
+        });
+    },
+});
+
+const actions = (product: Product): DropdownMenuItem[] => [
+    ...(product.added ? [addedAction()] : [addProductAction(product)]),
     {
         label: "View product details",
         icon: "i-lucide-eye",
@@ -47,7 +68,7 @@ const actions = (product: Product): DropdownMenuItem[] => [
             copy(product.barcode);
 
             toast.add({
-                title: "Barcode copied to clipboard!",
+                title: "Barcode copied to clipboard",
                 color: "success",
                 icon: "i-lucide-circle-check",
             });
