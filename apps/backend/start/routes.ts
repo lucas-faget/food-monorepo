@@ -62,6 +62,10 @@ router
     })
     .prefix('/api/v1')
 
+/* Food */
 router.get('/food/:barcode', [controllers.Food, 'getProduct'])
 router.get('/food', [controllers.Food, 'search'])
+/* Products */
 router.resource('products', controllers.Products).apiOnly()
+/* Categories */
+router.get('/categories', [controllers.Categories, 'index'])

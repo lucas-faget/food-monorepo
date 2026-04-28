@@ -63,7 +63,24 @@ export default class OpenFoodFactsService {
         }
     }
 
-    public productDTO(p: any) {
+    public async getCategories() {
+        const data = await this.client.getCategories()
+
+        return Object.entries(data)
+            .filter(
+                ([key, value]: [string, any]) =>
+                    key.startsWith('en:') &&
+                    (!value.parents || value.parents.length === 0) &&
+                    value.name?.fr
+            )
+            .map(([key, value]: [string, any]) => ({
+                tag: key,
+                name: value.name.fr,
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    private productDTO(p: any) {
         return {
             barcode: p.code,
             name: p.product_name,
