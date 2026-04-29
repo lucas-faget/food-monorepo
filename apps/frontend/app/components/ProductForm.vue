@@ -3,11 +3,15 @@ import * as v from "valibot";
 import type { Nutrients, Product } from "~/types/food";
 
 const { createProduct } = useProduct();
+const { getCategories } = useCategories();
 
 const tab = ref<"product" | "nutrients">("product");
 const servingTab = ref<"serving" | "quantity_100">("serving");
 
-const units = ["g", "mL"];
+const units: string[] = ["g", "mL"];
+
+const { data, pending } = await useAsyncData("categories", () => getCategories());
+const categories = computed<string[]>(() => data.value?.map((c) => c.name) || []);
 
 /**
  * Form state
@@ -15,7 +19,7 @@ const units = ["g", "mL"];
 const state = reactive({
     name: "",
     brand: "",
-    categories: [],
+    categories: null,
     imageUrl: "",
     servingSize: 100,
     servingSizeUnit: "g",
@@ -49,7 +53,7 @@ const state = reactive({
 const schema = v.object({
     name: v.pipe(v.string(), v.minLength(1, "Name is required")),
     brand: v.string(),
-    categories: v.array(v.string()),
+    categories: v.nullable(v.union([v.string(), v.array(v.string())])),
     imageUrl: v.string(),
     servingSize: v.pipe(v.number("Serving size is required"), v.minValue(1, "Serving size must > 0")),
     servingSizeUnit: v.picklist(units, "Invalid unit"),
@@ -102,7 +106,7 @@ const nutrimentFields = [
 const onSubmit = async (event: any) => {
     const payload: Partial<Product> = {
         ...event.data,
-        categories: event.data.categories.join(","),
+        categories: Array.isArray(event.data.categories) ? event.data.categories.join(",") : event.data.categories,
         imageUrl: event.data.imageUrl ? `https://${event.data.imageUrl}` : "",
         nutrients: Object.fromEntries(Object.entries(event.data.nutrients).filter(([_, value]) => value !== undefined)),
     };
@@ -135,8 +139,15 @@ const onSubmit = async (event: any) => {
                     <UInput v-model="state.brand" placeholder="Brand" class="w-full" />
                 </UFormField>
 
-                <UFormField label="Categories" name="categories">
-                    <UInputTags v-model="state.categories" class="w-full" />
+                <UFormField label="Category" name="categories">
+                    <USelectMenu
+                        v-model="state.categories"
+                        placeholder="Select category"
+                        :items="categories"
+                        :loading="pending"
+                        clear
+                        class="w-full"
+                    />
                 </UFormField>
 
                 <UFormField label="Image" name="imageUrl">
