@@ -64,6 +64,7 @@ const actionsColumn: TableColumn<Product> = {
             td: "text-right",
         },
     },
+    enableHiding: false,
     cell: ({ row }) => {
         return h(
             UDropdownMenu,
@@ -105,6 +106,7 @@ const columns: TableColumn<Product>[] = [
     {
         accessorKey: "name",
         header: "Name",
+        enableHiding: false,
         cell: ({ row }) => row.getValue("name"),
     },
     {

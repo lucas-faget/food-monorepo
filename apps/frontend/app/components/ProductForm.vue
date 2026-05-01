@@ -9,6 +9,14 @@ const tab = ref<"product" | "nutrients">("product");
 const servingTab = ref<"serving" | "quantity_100">("serving");
 
 const units: string[] = ["g", "mL"];
+const nutriScores: string[] = ["a", "b", "c", "d", "e"];
+const nutriScoreColors = {
+    a: "bg-green-500",
+    b: "bg-lime-500",
+    c: "bg-yellow-500",
+    d: "bg-orange-500",
+    e: "bg-red-500",
+};
 
 const { data, pending } = await useAsyncData("categories", () => getCategories());
 const categories = computed<string[]>(() => data.value?.map((c) => c.name) || []);
@@ -21,6 +29,7 @@ const state = reactive({
     brand: "",
     categories: null,
     imageUrl: "",
+    nutriScore: undefined,
     servingSize: 100,
     servingSizeUnit: "g",
     nutrients: {
@@ -55,6 +64,7 @@ const schema = v.object({
     brand: v.string(),
     categories: v.nullable(v.union([v.string(), v.array(v.string())])),
     imageUrl: v.string(),
+    nutriScore: v.optional(v.picklist(nutriScores, "Invalid Nutri-Score")),
     servingSize: v.pipe(v.number("Serving size is required"), v.minValue(1, "Serving size must > 0")),
     servingSizeUnit: v.picklist(units, "Invalid unit"),
     nutrients: v.object({
@@ -155,6 +165,23 @@ const onSubmit = async (event: any) => {
                         <UBadge color="neutral" variant="subtle" size="lg" label="https://" />
                         <UInput v-model="state.imageUrl" placeholder="www.example.com" class="flex-1" />
                     </UFieldGroup>
+                </UFormField>
+
+                <UFormField label="Nutri-score" name="nutriScore">
+                    <UTabs
+                        v-model="state.nutriScore"
+                        :items="
+                            nutriScores.map((nutriScore) => ({
+                                label: nutriScore.toUpperCase(),
+                                value: nutriScore,
+                            }))
+                        "
+                        :ui="{
+                            indicator: state.nutriScore ? nutriScoreColors[state.nutriScore] : 'bg-primary',
+                        }"
+                        size="xl"
+                        class="w-fit"
+                    />
                 </UFormField>
             </div>
 
